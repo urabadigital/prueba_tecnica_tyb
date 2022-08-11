@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tyba/ui/widget/university_details.dart';
 import '../../domain/model/university.dart';
 
 class UniversityListWidget extends StatefulWidget {
@@ -16,7 +17,7 @@ class _UniversityListWidgetState extends State<UniversityListWidget> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsScreen(university: widget.university)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),

@@ -4,6 +4,7 @@ import 'package:tyba/main.dart';
 import 'package:tyba/ui/home/home_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../widget/university_details.dart';
 import '../widget/university_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -146,7 +147,7 @@ class UniversityGrid extends StatelessWidget {
           final university = universitys![index];
           return InkWell(
             onTap: () {
-
+              Navigator.push(context, MaterialPageRoute(builder: (_) => DetailsScreen(university: university)));
             },
             child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
