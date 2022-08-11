@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../domain/model/university.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -10,7 +13,35 @@ class DetailsScreen extends StatefulWidget {
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
+File? image;
+String? uuid;
+OverlayEntry? loader;
+
 class _DetailsScreenState extends State<DetailsScreen> {
+
+  Future pickImage(ImageSource source, ValueChanged<String> uploadCompleted) async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? pickedFile = await imagePicker.pickImage(source: source, imageQuality: 80, maxHeight: 480, maxWidth: 640);
+    File imageFile = File(pickedFile!.path);
+    
+      try {
+        setState((){
+          image = imageFile;
+        });
+        //loader = Helper.overlayLoader(context);
+        //FocusScope.of(context).unfocus();
+        //Overlay.of(context)!.insert(loader!);
+        //uuid = await _uploadRepository.uploadImage(imageFile, 'avatar');
+        uploadCompleted(uuid!);
+        //currentUser.value.image = new Media(id: uuid);
+        //_con.update(currentUser.value);
+        //Helper.hideLoader(loader!);
+      }
+      catch (e) {
+      }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +67,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(height: 20),
               InkWell(
                 onTap: (() {
-                  
+                  ImagePickerBottomSheet();
                 }),
               child: Container(
                 height: 150,
@@ -67,5 +98,43 @@ class _DetailsScreenState extends State<DetailsScreen> {
         )
       ),
     ));
+  }
+
+  ImagePickerBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: new Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new ListTile(
+                  leading: new Icon(Icons.camera),
+                  title: new Text('Camara'),
+                  onTap: () => getImageCamera(),
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.image),
+                  title: new Text('Galeria'),
+                  onTap: () => getImageGallery(),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future getImageCamera() async {
+    Navigator.of(context).pop();
+    await pickImage(ImageSource.camera, (uuid) {
+      //currentUser.value.image = new Media(id: uuid);
+    });
+  }
+
+  Future getImageGallery() async {
+    Navigator.of(context).pop();
+    await pickImage(ImageSource.gallery, (uuid) {
+      //currentUser.value.image = new Media(id: uuid);
+    });
   }
 }

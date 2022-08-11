@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    const Text('Buscar universidades ... '),
+                    const Text('Buscar universidad ... '),
                     const SizedBox(height: 5),
                     TextField(
                       onChanged: (val) {
